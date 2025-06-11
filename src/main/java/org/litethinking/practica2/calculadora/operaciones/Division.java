@@ -10,6 +10,13 @@ public class Division implements OperacionMatematica {
         if (valores.getValor2().equals(BigDecimal.ZERO)) {
             throw new DivisionPorCeroException();
         }
-        return valores.getValor1().divide(valores.getValor2());
+        try {
+            BigDecimal valor1 = valores.getValor1();
+            BigDecimal valor2 = valores.getValor2();
+            return valor1.divide(valor2);
+        } catch (Exception e) {
+            throw new RuntimeException("Error during division: " + e.getMessage(), e);
+        }
     }
 }
+
