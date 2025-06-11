@@ -6,7 +6,7 @@ public class ValoresOperacion {
     private final BigDecimal valor1;
     private final BigDecimal valor2;
 
-    public ValoresOperacion(String entrada1, String entrada2) {
+    public ValoresOperacion(final String entrada1, final  String entrada2) {
         this.valor1 = new BigDecimal(entrada1);
         this.valor2 = new BigDecimal(entrada2);
     }

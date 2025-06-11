@@ -1,19 +1,24 @@
 package org.litethinking.practica2.calculadora.servicio;
 
+import org.litethinking.practica2.calculadora.modelo.OperacionEnum;
 import org.litethinking.practica2.calculadora.operaciones.OperacionMatematica;
 import org.litethinking.practica2.calculadora.modelo.ValoresOperacion;
 
 import java.math.BigDecimal;
 
 public class CalculadoraServicio {
-    private final OperacionMatematica operacion;
+    private OperacionEnum operacion;
 
-    public CalculadoraServicio(OperacionMatematica operacion) {
-        this.operacion = operacion;
-    }
+    public BigDecimal calcular(final ValoresOperacion valores, final String simboloOperacion) {
 
-    public BigDecimal calcular(ValoresOperacion valores) {
+        operacion = this.operacion.obtenerPorSimbolo(simboloOperacion)
+                .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: " + simboloOperacion));
 
-        return operacion.calcular(valores);
+        OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();
+
+        return instanciaOperacion.calcular(valores);
     }
 }
+
+
+

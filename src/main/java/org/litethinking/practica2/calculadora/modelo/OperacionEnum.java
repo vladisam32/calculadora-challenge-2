@@ -5,7 +5,7 @@ import org.litethinking.practica2.calculadora.operaciones.*;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public enum Operacion {
+public enum OperacionEnum {
 
     SUMAR("+", Suma::new),
     RESTAR("-", Resta::new),
@@ -15,7 +15,7 @@ public enum Operacion {
     private final String symbol;
     private final Supplier<OperacionMatematica> operationSupplier;
 
-    Operacion(String symbol, Supplier<OperacionMatematica> operationSupplier) {
+    OperacionEnum(String symbol, Supplier<OperacionMatematica> operationSupplier) {
         this.symbol = symbol;
         this.operationSupplier = operationSupplier;
     }
@@ -28,12 +28,12 @@ public enum Operacion {
         return obtenerPorSimbolo(symbol).isPresent();
     }
 
-    public static Optional<Operacion> obtenerPorSimbolo(String symbol) {
+    public static Optional<OperacionEnum> obtenerPorSimbolo(String symbol) {
         return buscOperacionSegunSimbolo(symbol);
     }
 
-    private static Optional<Operacion> buscOperacionSegunSimbolo(String symbol) {
-        for (Operacion operacion : values()) {
+    private static Optional<OperacionEnum> buscOperacionSegunSimbolo(String symbol) {
+        for (OperacionEnum operacion : values()) {
             if (operacion.symbol.equals(symbol)) {
                 return Optional.of(operacion);
             }

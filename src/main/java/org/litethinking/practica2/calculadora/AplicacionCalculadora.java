@@ -4,9 +4,8 @@ import org.litethinking.practica2.calculadora.util.ValidarNumero;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
-import org.litethinking.practica2.calculadora.modelo.Operacion;
+
 import org.litethinking.practica2.calculadora.modelo.ValoresOperacion;
-import org.litethinking.practica2.calculadora.operaciones.OperacionMatematica;
 import org.litethinking.practica2.calculadora.servicio.CalculadoraServicio;
 
 public class AplicacionCalculadora {
@@ -26,20 +25,31 @@ public class AplicacionCalculadora {
             System.out.println("Ingrese el segundo número: ");
             String valor2 = ValidarNumero.validar(scanner.nextLine());
 
-            ValoresOperacion valores = new ValoresOperacion(valor1, valor2);
+            ArithmeticInput result = new ArithmeticInput(valor1, simboloOperacion, valor2);
 
-            Operacion operacion = Operacion.obtenerPorSimbolo(simboloOperacion)
-                    .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: " + simboloOperacion));
+            BigDecimal resultado = getCalculoOperacionMatematica(result.valor1(), result.valor2(), result.simboloOperacion());
 
-            OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();
-            CalculadoraServicio calculadora = new CalculadoraServicio(instanciaOperacion);
-
-            BigDecimal resultado = calculadora.calcular(valores);
             System.out.println("Resultado: " + resultado);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    
-    
+
+    private record ArithmeticInput(String valor1, String simboloOperacion, String valor2) {
+    }
+
+    private static BigDecimal getCalculoOperacionMatematica(final String valor1, final String valor2, final String simboloOperacion) {
+        ValoresOperacion valores = new ValoresOperacion(valor1, valor2);
+
+           /* Operacion operacion = Operacion.obtenerPorSimbolo(simboloOperacion)
+                    .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: " + simboloOperacion));
+
+            OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();*/
+
+        CalculadoraServicio calculadora = new CalculadoraServicio();
+
+        return calculadora.calcular(valores, simboloOperacion);
+    }
+
+
 }
