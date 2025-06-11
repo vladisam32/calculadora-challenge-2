@@ -5,5 +5,5 @@ import org.litethinking.practica2.calculadora.modelo.ValoresOperacion;
 import java.math.BigDecimal;
 
 public interface OperacionMatematica {
-    BigDecimal calcular(ValoresOperacion valores) throws RuntimeException;
+    BigDecimal calcular(final ValoresOperacion valores) throws RuntimeException;
 }

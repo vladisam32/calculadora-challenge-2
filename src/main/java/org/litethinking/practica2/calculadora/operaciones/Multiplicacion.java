@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public class Multiplicacion implements OperacionMatematica {
 
-    public BigDecimal calcular(ValoresOperacion valores) {
+    public BigDecimal calcular(final ValoresOperacion valores) {
        BigDecimal result = null;
        try {
            result =  valores.getValor1().multiply(valores.getValor2());

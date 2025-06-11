@@ -1,5 +1,6 @@
 package org.litethinking.practica2.calculadora;
 
+import org.litethinking.practica2.calculadora.servicio.ICalculoServicio;
 import org.litethinking.practica2.calculadora.util.ValidarNumero;
 
 import java.math.BigDecimal;
@@ -9,8 +10,17 @@ import org.litethinking.practica2.calculadora.modelo.ValoresOperacion;
 import org.litethinking.practica2.calculadora.servicio.CalculadoraServicio;
 
 public class AplicacionCalculadora {
+
+    private final ICalculoServicio calculadoraServicio;
+
+    public AplicacionCalculadora(ICalculoServicio calculadoraServicio) {
+        this.calculadoraServicio = calculadoraServicio;
+    }
+
     public static void main(String[] args) {
         try {
+            CalculadoraServicio calculadoraServicio = new CalculadoraServicio();
+            AplicacionCalculadora app = new AplicacionCalculadora(calculadoraServicio);
 
             System.out.println("CALCULADORA...: ");
 
@@ -25,9 +35,9 @@ public class AplicacionCalculadora {
             System.out.println("Ingrese el segundo número: ");
             String valor2 = ValidarNumero.validar(scanner.nextLine());
 
-            ArithmeticInput input = new ArithmeticInput(valor1, simboloOperacion, valor2);
+            DataInput input = new DataInput(valor1, simboloOperacion, valor2);
 
-            BigDecimal resultado = getCalculoOperacionMatematica(input.valor1(), input.valor2(), input.simboloOperacion());
+            BigDecimal resultado = app.getCalculoOperacionMatematica(input.valor1(), input.valor2(), input.simboloOperacion());
 
             System.out.println("Resultado: " + resultado);
         } catch (Exception e) {
@@ -35,10 +45,10 @@ public class AplicacionCalculadora {
         }
     }
 
-    private record ArithmeticInput(String valor1, String simboloOperacion, String valor2) {
+    private record DataInput(String valor1, String simboloOperacion, String valor2) {
     }
 
-    private static BigDecimal getCalculoOperacionMatematica(final String valor1, final String valor2, final String simboloOperacion) {
+    private BigDecimal getCalculoOperacionMatematica(final String valor1, final String valor2, final String simboloOperacion) {
         ValoresOperacion valores = new ValoresOperacion(valor1, valor2);
 
            /* Operacion operacion = Operacion.obtenerPorSimbolo(simboloOperacion)
@@ -46,10 +56,6 @@ public class AplicacionCalculadora {
 
             OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();*/
 
-        CalculadoraServicio calculadora = new CalculadoraServicio();
-
-        return calculadora.calcular(valores, simboloOperacion);
+        return calculadoraServicio.calcular(valores, simboloOperacion);
     }
-
-
 }
