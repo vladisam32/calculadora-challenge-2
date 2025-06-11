@@ -2,7 +2,13 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.litethinking.practica2.calculadora.excepcion.MultiplicacionInvalidaException;
+import org.litethinking.practica2.calculadora.modelo.Operacion;
 import org.litethinking.practica2.calculadora.modelo.ValoresOperacion;
+import org.litethinking.practica2.calculadora.operaciones.Multiplicacion;
+import org.litethinking.practica2.calculadora.operaciones.OperacionMatematica;
+import org.litethinking.practica2.calculadora.servicio.CalculadoraServicio;
+import org.litethinking.practica2.calculadora.util.ValidarNumero;
 
 import java.math.BigDecimal;
 
@@ -11,90 +17,86 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PruebasCalculadora {
 
     @Test
-    @DisplayName("Prueba de suma de dos números")
-    public void testSuma() {
-        // Crear valores de entrada
-        ValoresOperacion valores = new ValoresOperacion("5.5", "4.5");
-        BigDecimal valor1 = valores.getValor1();
-        BigDecimal valor2 = valores.getValor2();
+    @DisplayName("Prueba de suma con entrada simulada")
+    public void testSumaSimulada() {
+        ValoresOperacion valores = new ValoresOperacion("7.5", "2.5");
+        Operacion operacion = Operacion.obtenerPorSimbolo("+")
+                .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: +"));
 
-        BigDecimal resultado = valor1.add(valor2);
+        OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();
+        CalculadoraServicio calculadora = new CalculadoraServicio(instanciaOperacion);
+
+        BigDecimal resultado = calculadora.calcular(valores);
         Assertions.assertEquals(new BigDecimal("10.0"), resultado, "La suma no coincide con el resultado esperado");
     }
 
     @Test
-    @DisplayName("Prueba de resta de dos números")
-    public void testResta() {
-        ValoresOperacion valores = new ValoresOperacion("10.0", "3.5");
-        BigDecimal valor1 = valores.getValor1();
-        BigDecimal valor2 = valores.getValor2();
-
-        BigDecimal resultado = valor1.subtract(valor2);
-        Assertions.assertEquals(new BigDecimal("6.5"), resultado, "La resta no coincide con el resultado esperado");
+    @DisplayName("Prueba de operación desconocida")
+    public void testOperacionDesconocida() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Operacion.obtenerPorSimbolo("%")
+                    .orElseThrow(() -> new IllegalArgumentException("Operación desconocida"));
+        }, "Se esperaba una excepción para la operación desconocida");
     }
 
     @Test
-    @DisplayName("Prueba de multiplicación de dos números")
-    public void testMultiplicacion() {
-        ValoresOperacion valores = new ValoresOperacion("2.5", "4.0");
-        BigDecimal valor1 = valores.getValor1();
-        BigDecimal valor2 = valores.getValor2();
+    @DisplayName("Prueba de división con entrada simulada")
+    public void testDivisionSimulada() {
+        ValoresOperacion valores = new ValoresOperacion("20.0", "4.0");
+        Operacion operacion = Operacion.obtenerPorSimbolo("/")
+                .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: /"));
 
-        BigDecimal resultado = valor1.multiply(valor2);
-        Assertions.assertEquals(new BigDecimal("10.0"), resultado, "La multiplicación no coincide con el resultado esperado");
-    }
+        OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();
+        CalculadoraServicio calculadora = new CalculadoraServicio(instanciaOperacion);
 
-    @Test
-    @DisplayName("Prueba de división de dos números")
-    public void testDivision() {
-        ValoresOperacion valores = new ValoresOperacion("10.0", "2.0");
-        BigDecimal valor1 = valores.getValor1();
-        BigDecimal valor2 = valores.getValor2();
-
-        BigDecimal resultado = valor1.divide(valor2);
+        BigDecimal resultado = calculadora.calcular(valores);
         Assertions.assertEquals(new BigDecimal("5.0"), resultado, "La división no coincide con el resultado esperado");
     }
 
     @Test
-    @DisplayName("Validación de división por cero")
-    public void testErrores() {
-        // Validar errores como división por cero
-        ValoresOperacion valores = new ValoresOperacion("10.0", "0");
+    @DisplayName("Prueba de multiplicación con entrada simulada")
+    public void testMultiplicacionSimulada() {
+        ValoresOperacion valores = new ValoresOperacion("3.0", "3.0");
+        Operacion operacion = Operacion.obtenerPorSimbolo("*")
+                .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: *"));
 
-        BigDecimal valor1 = valores.getValor1();
-        BigDecimal valor2 = valores.getValor2();
+        OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();
+        CalculadoraServicio calculadora = new CalculadoraServicio(instanciaOperacion);
 
-        Exception exception = Assertions.assertThrows(ArithmeticException.class, () -> {
-            valor1.divide(valor2);
-        });
-
-        Assertions.assertEquals("/ 0", exception.getMessage(), "El mensaje de error no es el esperado");
+        BigDecimal resultado = calculadora.calcular(valores);
+        Assertions.assertEquals(new BigDecimal("9.0"), resultado, "La multiplicación no coincide con el resultado esperado");
     }
 
     @Test
-    @DisplayName("Prueba con supplier lambda ::new de valores")
-    public void testSupplier() {
-        // Simular un supplier que devuelve números como Strings
-        ValoresOperacion valores = new ValoresOperacion("8.0", "12.0");
-        BigDecimal valor1 = valores.getValor1();
-        BigDecimal valor2 = valores.getValor2();
+    @DisplayName("Prueba de resta con entrada simulada")
+    public void testRestaSimulada() {
+        ValoresOperacion valores = new ValoresOperacion("15.0", "5");
+        Operacion operacion = Operacion.obtenerPorSimbolo("-")
+                .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: -"));
 
-        Assertions.assertAll("Supplier Test",
-                () -> assertEquals(new BigDecimal("8.0"), valor1),
-                () -> assertEquals(new BigDecimal("12.0"), valor2)
+        OperacionMatematica instanciaOperacion = operacion.obtenerInstancia();
+        CalculadoraServicio calculadora = new CalculadoraServicio(instanciaOperacion);
+
+        BigDecimal resultado = calculadora.calcular(valores);
+        Assertions.assertEquals(new BigDecimal("9.5"), resultado, "La resta no coincide con el resultado esperado");
+    }
+
+
+    
+    
+    @Test
+    @DisplayName("Prueba de multiplicación con valor nulo")
+    public void testMultiplicacionConValorNulo() {
+        Multiplicacion multiplicacion = new Multiplicacion();
+        ValoresOperacion valores = new ValoresOperacion("", "5");
+
+        MultiplicacionInvalidaException exception = Assertions.assertThrows(
+                MultiplicacionInvalidaException.class, 
+                () -> multiplicacion.calcular(valores), 
+                "Se esperaba una excepción para el valor nulo"
         );
-    }
 
-    @Test
-    @DisplayName("Validar el formato correcto de los números")
-    public void testValidacionNumeros() {
-        // Test para verificar que los valores están correctamente formateados
-        ValoresOperacion valores = new ValoresOperacion("5.67", "8.90");
-
-        Assertions.assertDoesNotThrow(() -> {
-            new BigDecimal("5.67");
-            new BigDecimal("8.90");
-        }, "Hubo un error al validar los números");
+        Assertions.assertEquals("Expected exception message here", exception.getMessage());
     }
 }
 
