@@ -18,9 +18,10 @@ public class AplicacionCalculadora {
     }
 
     public static void main(String[] args) {
+
+        AplicacionCalculadora app = new AplicacionCalculadora(new CalculadoraServicio());
+
         try {
-            CalculadoraServicio calculadoraServicio = new CalculadoraServicio();
-            AplicacionCalculadora app = new AplicacionCalculadora(calculadoraServicio);
 
             System.out.println("CALCULADORA...: ");
 
