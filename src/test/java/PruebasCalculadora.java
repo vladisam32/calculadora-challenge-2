@@ -70,7 +70,7 @@ public class PruebasCalculadora {
     @Test
     @DisplayName("Prueba de resta con entrada simulada")
     public void testRestaSimulada() {
-        ValoresOperacion valores = new ValoresOperacion("15.0", "5");
+        ValoresOperacion valores = new ValoresOperacion("15.0", "5.5");
         Operacion operacion = Operacion.obtenerPorSimbolo("-")
                 .orElseThrow(() -> new IllegalArgumentException("Operación desconocida: -"));
 
