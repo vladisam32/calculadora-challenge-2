@@ -2,6 +2,7 @@ package org.litethinking.practica2.calculadora.modelo;
 
 import org.litethinking.practica2.calculadora.operaciones.*;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -34,7 +35,7 @@ public enum OperacionEnum {
 
     private static Optional<OperacionEnum> buscOperacionSegunSimbolo(String symbol) {
         return Optional.ofNullable(
-            java.util.Arrays.stream(values())
+            Arrays.stream(values())
             .filter(operacion -> operacion.symbol.equals(symbol))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("Simbolo no definido"))
