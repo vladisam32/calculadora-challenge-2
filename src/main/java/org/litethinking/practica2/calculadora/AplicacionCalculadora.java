@@ -25,9 +25,9 @@ public class AplicacionCalculadora {
             System.out.println("Ingrese el segundo número: ");
             String valor2 = ValidarNumero.validar(scanner.nextLine());
 
-            ArithmeticInput result = new ArithmeticInput(valor1, simboloOperacion, valor2);
+            ArithmeticInput input = new ArithmeticInput(valor1, simboloOperacion, valor2);
 
-            BigDecimal resultado = getCalculoOperacionMatematica(result.valor1(), result.valor2(), result.simboloOperacion());
+            BigDecimal resultado = getCalculoOperacionMatematica(input.valor1(), input.valor2(), input.simboloOperacion());
 
             System.out.println("Resultado: " + resultado);
         } catch (Exception e) {
