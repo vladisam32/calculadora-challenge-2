@@ -33,11 +33,13 @@ public enum OperacionEnum {
     }
 
     private static Optional<OperacionEnum> buscOperacionSegunSimbolo(String symbol) {
-        for (OperacionEnum operacion : values()) {
-            if (operacion.symbol.equals(symbol)) {
-                return Optional.of(operacion);
-            }
-        }
-        return Optional.empty();
+        return Optional.ofNullable(
+            java.util.Arrays.stream(values())
+            .filter(operacion -> operacion.symbol.equals(symbol))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Simbolo no definido"))
+        );
     }
 }
+
+
